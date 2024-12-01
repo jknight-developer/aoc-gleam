@@ -1,17 +1,6 @@
 import gleam/int
-import gleam/io
 import gleam/list
 import gleam/string
-
-// fn parse_lines(lines: List(String)) -> #(List(Int), List(Int)) {
-//   list.fold(lines, #([], []), fn(pair, line) {
-//     let #(left_list, right_list) = pair
-//     let assert [left_item, right_item] = string.split(line, "   ")
-//     let assert Ok(left_item) = int.parse(left_item)
-//     let assert Ok(right_item) = int.parse(right_item)
-//     #([left_item, ..left_list], [right_item, ..right_list])
-//   })
-// }
 
 // watched the latest Isaac Harris-Holt vid, lol
 fn parse_lines(lines: List(String)) -> #(List(Int), List(Int)) {
