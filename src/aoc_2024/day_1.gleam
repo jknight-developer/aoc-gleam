@@ -28,7 +28,6 @@ fn sort_pair(pair: #(List(Int), List(Int))) -> #(List(Int), List(Int)) {
   #(list.sort(one, int.compare), list.sort(two, int.compare))
 }
 
-
 pub fn pt_1(input: String) -> Int {
   let #(left_ints, right_ints) = input
   |> string.split("\n")
@@ -37,16 +36,14 @@ pub fn pt_1(input: String) -> Int {
 
   list.map2(left_ints, right_ints, fn(left, right) {int.absolute_value(left - right)})
   |> list.fold(0, fn(x, y) {x + y})
-
-  //// left isn't always smaller than right, stupid
-  // list.interleave([left_ints, right_ints])
-  // |> list.index_fold(0, fn(acc, item, index) {case index {
-  //   a if a%2 == 0 -> acc + item
-  //   a if a%2 == 1 -> acc - item
-  //   _ -> panic
-  // }})
 }
 
-pub fn pt_2(_input: String) {
-  todo as "part 2 not implemented"
+pub fn pt_2(input: String) {
+  let #(left_ints, right_ints) = input
+  |> string.split("\n")
+  |> parse_lines
+
+  list.fold(left_ints, 0, fn(acc, x) {
+     acc + {x * list.count(right_ints, fn(y) {x == y})}
+  })
 }
