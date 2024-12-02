@@ -23,8 +23,47 @@ pub fn pt_1(input: String) -> Int {
   |> parse_lines
   |> sort_pair
 
-  list.map2(left_ints, right_ints, fn(left, right) {int.absolute_value(left - right)})
-  |> list.fold(0, fn(x, y) {x + y})
+  use x, y <- list.fold(
+    {
+      use left, right <- list.map2(left_ints, right_ints)
+      int.absolute_value(left - right)
+    },
+    0
+  )
+  x + y
+
+  // list.fold(
+  //   {
+  //     use left, right <- list.map2(left_ints, right_ints)
+  //     int.absolute_value(left - right)
+  //   },
+  //   0,
+  //   int.add
+  // )
+
+  // use x, y <- list.fold(
+  //   list.map2(
+  //     left_ints,
+  //     right_ints,
+  //     fn(left, right) {
+  //       int.absolute_value(left - right)
+  //     }
+  //   ),
+  //   0
+  // ) 
+  // int.add(x, y)
+
+  // list.fold(
+  //   list.map2(
+  //     left_ints,
+  //     right_ints,
+  //     fn(left, right) {
+  //       int.absolute_value(left - right)
+  //     }
+  //   ),
+  //   0,
+  //   int.add
+  // )
 }
 
 pub fn pt_2(input: String) {
