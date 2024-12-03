@@ -1,42 +1,30 @@
+import gleam/bool
 import gleam/int
 import gleam/list
-import gleam/result
+import gleam/set
 import gleam/string
 
-import gleam/io
-
-pub fn do_safety_test(this: Int, next: Int, rest: List(Int)) -> Bool {
+pub fn get_diffs(curr: Int, next: Int, rest:List(Int), acc: List(Int)) -> List(Int) {
   case rest {
-    [after, ..rest] -> check3(this, next, after) && do_safety_test(next, after, rest)
-    [] -> this != next && int.absolute_value(this - next) <= 3
+    [] -> list.append(acc, [next - curr])
+    [x, ..rest] -> get_diffs(next, x, rest, list.append(acc, [next - curr]))
   }
 }
 
-fn check3(this, next, after) -> Bool {
-  this != next &&
-  next != after &&
-  !{this > next && next < after} &&
-  !{this < next && next > after} &&
-  int.absolute_value(this - next) <= 3 &&
-  int.absolute_value(next - after) <= 3
-}
-
-// count the number of safe readings
-pub fn pt_1(input: String) {
-  let lines = input
+pub fn list_ints(input: String) -> List(List(Int)) {
+  let assert Ok(lines) = input
   |> string.split("\n")
   |> list.map(string.split(_, " "))
+  |> list.try_map(list.try_map(_, int.parse))
+  lines
+}
 
-  let assert Ok(readings_int) = {
-    use line <- list.try_map(lines)
-    list.try_map(line, int.parse)
-  }
-  use acc, readings <- list.fold(readings_int, 0)
+pub fn pt_1(input: String) {
+  use acc, readings <- list.fold(list_ints(input), 0)
   let assert [first, next, ..rest] = readings
-  case do_safety_test(first, next, rest) {
-    True -> acc + 1
-    False -> acc
-  }
+  let readset = set.from_list(get_diffs(first, next, rest, []))
+  let b = set.is_subset(readset, set.from_list([1, 2, 3])) || set.is_subset(readset, set.from_list([-1, -2, -3]))
+  acc + bool.to_int(b)
 }
 
 pub fn pt_2(input: String) {
