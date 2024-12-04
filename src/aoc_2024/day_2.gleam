@@ -27,6 +27,8 @@ pub fn pt_1(input: String) {
   acc + bool.to_int(b)
 }
 
+// adventofcode.com is not accepting my answer, but I can't find anything wrong with it.
+// part 2 is unavailable to me as a result
 pub fn pt_2(input: String) {
   todo as "part 2 not implemented"
 }
